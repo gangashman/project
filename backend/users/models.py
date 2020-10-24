@@ -4,3 +4,6 @@ from django.db import models
 
 class User(AbstractUser):
     email = models.EmailField(null=True, blank=True, max_length=254)
+
+    USERNAME_FIELD = "username"
+    EMAIL_FIELD = "email"

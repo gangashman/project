@@ -68,7 +68,6 @@
      AuthWindow
    },
    data: () => ({
-     backend_url: process.env.VUE_APP_BACKEND_URL,
      links: [
        { title: 'Home', url: '/', icon: 'mdi-home' },
        { title: 'About', url: '/about',icon: 'mdi-help-box' },

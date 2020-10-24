@@ -10,18 +10,21 @@
             <v-tabs v-model="auth_tab">
               <v-tab :disabled="auth_loading">Login</v-tab>
               <v-tab :disabled="auth_loading">Registration</v-tab>
-
+              {{login_data}}
               <v-tab-item>
                 <v-text-field
-                  label="Login" :rules="rules" hide-details="auto"
+                  v-model="login_data.username"
+                  label="Login" hide-details="auto"
                   :disabled="auth_loading"></v-text-field>
                 <v-text-field
-                  label="Password" type="password" :rules="rules" hide-details="auto"
+                  v-model="login_data.password"
+                  label="Password" type="password" hide-details="auto"
                   :disabled="auth_loading"></v-text-field>
                 <v-col class="text-right">
                   <v-btn
+                    v-on:click="login"
                     class="ma-2" :loading="auth_loading" :disabled="auth_loading"
-                    color="primary" @click="auth_loading = 'loading'">
+                    color="primary">
                     Login
                   </v-btn>
                 </v-col>
@@ -50,18 +53,19 @@
               </v-tab-item>
               <v-tab-item>
                 <v-text-field
-                  label="Login" :rules="rules" hide-details="auto"
+                  label="Login" hide-details="auto"
                   :disabled="auth_loading"></v-text-field>
                 <v-text-field
-                  label="Email" :rules="rules" hide-details="auto"
+                  label="Email" hide-details="auto"
                   :disabled="auth_loading"></v-text-field>
                 <v-text-field
-                  label="Password" type="password" :rules="rules" hide-details="auto"
+                  label="Password" type="password" hide-details="auto"
                   :disabled="auth_loading"></v-text-field>
                 <v-col class="text-right">
                   <v-btn
+                    v-on:click="register"
                     class="ma-2" :loading="auth_loading" :disabled="auth_loading"
-                    color="primary" @click="auth_loading = 'loading'">
+                    color="primary">
                     Register
                   </v-btn>
                 </v-col>
@@ -81,6 +85,8 @@
 </style>
 
 <script>
+ import gql from 'graphql-tag'
+ 
  export default {
    components: {
    },
@@ -88,6 +94,43 @@
      dialog_login: false,
      auth_loading: false,
      auth_tab: null,
+     login_data: {},
    }),
+   methods: {
+     login: function (event) {
+       this.auth_loading = true
+
+       this.$apollo.mutate({
+         mutation: gql`mutation {
+           tokenAuth(username: $username, password: $password) {
+             success,
+             errors,
+             unarchiving,
+             token,
+             refreshToken,
+             unarchiving,
+             user {
+               id,
+               username,
+             }
+           }
+         }`,
+         variables: {
+           username: this.login_data.username,
+           password: this.login_data.password,
+         },
+       }).then((data) => {
+         console.log(data)
+         this.auth_loading = false
+       }).catch((error) => {
+         console.error(error)
+         this.auth_loading = false
+       })
+     },
+     register: function (event) {
+       this.auth_loading = true
+       this.auth_loading = false
+     }
+   }
  }
 </script>
