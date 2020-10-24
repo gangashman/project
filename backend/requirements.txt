@@ -8,3 +8,5 @@ loguru==0.5.3
 django-extensions==3.0.9
 django-debug-toolbar==3.1.1
 graphene-django==2.13.0
+django-graphql-auth==0.3.14
+django-filter==2.4.0

@@ -44,7 +44,13 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'graphene_django',
+    'graphql_auth',
+    "django_filters",
+
+    'users',
 ]
+
+AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -138,9 +144,9 @@ if env.bool('DEBUG', default=False):
     INSTALLED_APPS += ('debug_toolbar',)
     MIDDLEWARE += ('debug_toolbar.middleware.DebugToolbarMiddleware', )
 
-GRAPHENE = {
-    "SCHEMA": "django_root.schema.schema"
-}
+SHELL_PLUS_IMPORTS = [
+    'from users.tests.factories import *',
+]
 
 try:
     from main.local_settings import *  # NOQA

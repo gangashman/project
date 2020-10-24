@@ -34,9 +34,7 @@ services:
       - backend
     volumes:
       - ./frontend:/app
-    env_file:
-      - .env
-    command: npm run serve -- --port 3000
+    command: npx vue-cli-service serve --port 3000 --mode development
 
   nginx:
     image: nginx:alpine
