@@ -1,7 +1,6 @@
 import graphene
 from graphql_auth import mutations
 from graphql_auth.schema import MeQuery, UserQuery
-from rx import Observable
 
 
 class AuthMutation(graphene.ObjectType):
@@ -19,8 +18,6 @@ class AuthMutation(graphene.ObjectType):
     verify_secondary_email = mutations.VerifySecondaryEmail.Field()
     swap_emails = mutations.SwapEmails.Field()
     remove_secondary_email = mutations.RemoveSecondaryEmail.Field()
-
-    # django-graphql-jwt inheritances
     token_auth = mutations.ObtainJSONWebToken.Field()
     verify_token = mutations.VerifyToken.Field()
     refresh_token = mutations.RefreshToken.Field()
@@ -36,13 +33,11 @@ class Mutation(AuthMutation, graphene.ObjectType):
 
 
 class Subscription(graphene.ObjectType):
-    count_seconds = graphene.Int(up_to=graphene.Int())
-
-    def resolve_count_seconds(root, info, up_to=5):
-        return Observable.interval(1000)\
-                         .map(lambda i: "{0}".format(i))\
-                         .take_while(lambda i: int(i) <= up_to)
-        yield up_to
+    hello = graphene.String()
 
 
-schema = graphene.Schema(query=Query, mutation=Mutation, subscription=Subscription)
+schema = graphene.Schema(
+    query=Query,
+    mutation=Mutation,
+    subscription=Subscription
+)

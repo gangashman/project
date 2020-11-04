@@ -1,17 +1,15 @@
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.sessions import SessionMiddlewareStack
 from channels.auth import AuthMiddlewareStack
-from django.conf.urls import url
-from graphql_ws.django_channels import GraphQLSubscriptionConsumer
+from django.urls import path
+
+from main.schema import schema
+
+from graphene_subscriptions.consumers import GraphqlSubscriptionConsumer
 
 
 application = ProtocolTypeRouter({
-    "websocket": AuthMiddlewareStack(
-        URLRouter([
-            url(
-                r"^/ws/subscriptions/$",
-                GraphQLSubscriptionConsumer
-            ),
-        ])
-    ),
+    "websocket": URLRouter([
+        path("graphql/", GraphqlSubscriptionConsumer.as_asgi()),
+    ])
 })

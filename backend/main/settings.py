@@ -49,15 +49,22 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'channels',
+    'graphene_subscriptions',
 
     'users',
 ]
 
-CHANNELS_WS_PROTOCOLS = ["graphql-ws", ]
+GRAPHENE = {
+    'SCHEMA': 'main.schema',
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
+    "SUBSCRIPTION_PATH": "graphql/"
+}
+
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "asgiref.inmemory.ChannelLayer",
-        # "ROUTING": "main.routing.channel_routing",
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
     },
 }
 
@@ -160,15 +167,6 @@ if env.bool('DEBUG', default=False):
 SHELL_PLUS_IMPORTS = [
     'from users.tests.factories import *',
 ]
-
-
-GRAPHENE = {
-    'SCHEMA': 'main.schema',
-    'MIDDLEWARE': [
-        'graphql_jwt.middleware.JSONWebTokenMiddleware',
-    ],
-    "SUBSCRIPTION_PATH": "ws/subscriptions/"
-}
 
 GRAPHQL_JWT = {
     "JWT_ALLOW_ANY_CLASSES": [
