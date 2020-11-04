@@ -10,6 +10,6 @@ from graphene_subscriptions.consumers import GraphqlSubscriptionConsumer
 
 application = ProtocolTypeRouter({
     "websocket": URLRouter([
-        path("graphql/", GraphqlSubscriptionConsumer.as_asgi()),
+        path("ws/graphql/", GraphqlSubscriptionConsumer.as_asgi()),
     ])
 })

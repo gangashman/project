@@ -59,7 +59,7 @@ GRAPHENE = {
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ],
-    "SUBSCRIPTION_PATH": "graphql/"
+    "SUBSCRIPTION_PATH": "ws/graphql/"
 }
 
 CHANNEL_LAYERS = {
