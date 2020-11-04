@@ -10,7 +10,7 @@
             <v-tabs v-model="auth_tab">
               <v-tab :disabled="auth_loading">Login</v-tab>
               <v-tab :disabled="auth_loading">Registration</v-tab>
-              {{login_data}}
+
               <v-tab-item>
                 <v-text-field
                   v-model="login_data.username"

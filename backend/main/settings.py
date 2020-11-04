@@ -53,6 +53,16 @@ INSTALLED_APPS = [
     'users',
 ]
 
+CHANNELS_WS_PROTOCOLS = ["graphql-ws", ]
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        # "ROUTING": "main.routing.channel_routing",
+    },
+}
+
+ASGI_APPLICATION = "main.routing.application"
+
 AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
@@ -153,10 +163,11 @@ SHELL_PLUS_IMPORTS = [
 
 
 GRAPHENE = {
+    'SCHEMA': 'main.schema',
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ],
-    "SUBSCRIPTION_PATH": "/subscriptions"
+    "SUBSCRIPTION_PATH": "ws/subscriptions/"
 }
 
 GRAPHQL_JWT = {
@@ -193,15 +204,6 @@ MIDDLEWARE_CLASSES = (
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-
-CHANNELS_WS_PROTOCOLS = ["graphql-ws", ]
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "asgiref.inmemory.ChannelLayer",
-        "ROUTING": "django_subscriptions.urls.channel_routing",
-    },
-
-}
 
 try:
     from main.local_settings import *  # NOQA
