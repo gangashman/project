@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
     'django_filters',
     'corsheaders',
+    'channels',
 
     'users',
 ]
@@ -155,6 +156,7 @@ GRAPHENE = {
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ],
+    "SUBSCRIPTION_PATH": "/subscriptions"
 }
 
 GRAPHQL_JWT = {
@@ -191,6 +193,15 @@ MIDDLEWARE_CLASSES = (
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+CHANNELS_WS_PROTOCOLS = ["graphql-ws", ]
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "django_subscriptions.urls.channel_routing",
+    },
+
+}
 
 try:
     from main.local_settings import *  # NOQA
